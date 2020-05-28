@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const CronJob = require('cron').CronJob;
 const nodemailer = require('nodemailer');
+
 const url = 'https://www.amazon.in/Apple-MacBook-Air-13-3-inch-MQD32HN/dp/B073Q5R6VR/';
 
 async function configureBrowser() {
@@ -15,7 +16,7 @@ async function checkPrice(page){
     let priceID = await page.evaluate(() => document.querySelector('#priceblock_ourprice').innerHTML);
     let currentPrice = Number(priceID.replace(/[^0-9.]+/g,""));
     
-    if(currentPrice > 54000){
+    if(currentPrice < 54000){
         console.log("You can buy it now, the current price is now "+currentPrice);
         sendNotif(currentPrice);
     }
